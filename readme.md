@@ -7,8 +7,7 @@ Objetivo do trabalho é implementação do jogo `Metroid` em Assembly Risc-V.
 
 ### Estrutura projeto
 - sprites: contem sprites do projeto
-- music: contem as musicas do projeto
-- src: contem todos os diretórios para a implementação do projeto
+- hlepers: contem utilitárias e funções de estado
 
 
 ### Rodar o projeto
