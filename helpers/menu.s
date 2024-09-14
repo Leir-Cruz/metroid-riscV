@@ -6,7 +6,7 @@
 
 .text
 
-
+###### TODO: LIMPEZA DEPOIS DO LOOP --> trocar registrador s0 para outro 
 
 MENU_START: 	la a0, title2
 		li a1, 0

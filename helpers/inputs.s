@@ -1,3 +1,5 @@
+.text
+
 FIRST_INPUT: 	li t1,0xFF200000
 	lw t0,0(t1)			# Le bit de Controle Teclado
 	andi t0,t0, 1		
