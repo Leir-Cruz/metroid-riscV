@@ -14,11 +14,11 @@ UPDATE_PRINT :
         beq a3 , t0 , samus1 # estado = 1?
         la a0 , samusStandBy # estado = 2
 END_UPDATE_PRINT :
-        xori s0 , s0 , 1
-        mv a3 , s0 # a3 <- frame oposto ao atual
+        xori s3 , s3 , 1
+        mv a3 , s3 # a3 <- frame oposto ao atual
         call PRINT # impressao da pose no outro frame
-        li t0 , 0xFF200604
-        sw s0 , 0( t0) # exibe o outro frame
+        li t0 , 0xFF200604 #0xFF200604 é o endereco que esta exibindo frame
+        sw s3 , 0( t0) # exibe o outro frame
         lw ra , 0( sp)
         lw a0 , 4( sp)
         lw a3 , 8( sp)

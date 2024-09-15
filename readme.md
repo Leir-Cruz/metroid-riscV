@@ -14,5 +14,9 @@ Objetivo do trabalho é implementação do jogo `Metroid` em Assembly Risc-V.
 Dentro do diretório do projeto, rodar no power shell:
 ```./fpgrars.exe ./main.s```
 
-#### Começar o jogo:
-```pressionar qualquer tecla```
+#### Como jogar
+w: Pula pra cima
+a: Anda para esquerda
+d: Anda para direita
+s: Ativa modo de rolamento
+u: Volta modo normal caso em modo de rolamento

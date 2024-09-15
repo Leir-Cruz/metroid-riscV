@@ -1,6 +1,9 @@
 .data
 .include "sprites/mapametroidteste1.data"
 .include "sprites/samusStandBy.data"
+
+SAMUS_POSITION: .word 140, 160
+
 SAMUS_MOVE_X:		.byte 0		# left: -1, right: 1
 SAMUS_MOVE_Y:		.byte 0		# up: -1, down: 1
 SAMUS_JUMP:		.byte 0		# jump: 1, nothing: 0
@@ -28,7 +31,9 @@ GAME_START:	la a0, title2   #MENU INICIAL DO JOGO
 				li a7 , 32
 				ecall
 GAME_SETUP: 
-		#xori s3, s3, 1  #mover essa parte para o loop
+		li t0, 0xFF200604
+		lw s3, 0(t0)
+
 		la a0, gamemapteste1
 		mv a1, zero
 		mv a2, zero
@@ -37,11 +42,13 @@ GAME_SETUP:
 		mv a5, zero
 		jal PRINT
 		li a3, 1
-		jal PRINT #termino de imprimir O MAPA
+		jal PRINT #termino de imprimir O MAPA nos dois frames
+
+		la t1, SAMUS_POSITION
 		la a0, samusStandBy
-		li a1, 140
-		li a2, 160
-		mv a3, zero
+		lw a1, 0(t1)
+		lw a2, 4(t1)
+		mv a3, s3
 		mv a4, zero
 		mv a5, zero
 		jal PRINT
@@ -49,6 +56,10 @@ GAME_SETUP:
             	
 GAME_LOOP: 	xori s3, s3, 1
 		jal MUSIC_PLAY
+		li a0 , 150
+		#call SLEEP
+		li a7 , 32
+		ecall
 		j GAME_LOOP
 		j EXIT
 		

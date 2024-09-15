@@ -32,7 +32,7 @@ SLEEP_MENU:	li a0,1000
 	  	li a7,32
 	 	ecall
 	 	
-	 	jal FIRST_INPUT	
+	 	#jal FIRST_INPUT	# (TODO: delete) essa função foi descontinuada no arquivo input.s
 		
 		j MENU_CHANGE
 		
