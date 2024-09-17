@@ -11,7 +11,7 @@ SAMUS_MOVE_Y:		.byte 0		# up: -1, down: 1
 SAMUS_JUMP:		.byte 0		# jump: 1, nothing: 0
 SAMUS_ROLLING:		.byte 0		# roll: 1, nothing: 0
 
-IS_MAP_FIXED: .byte 0
+IS_MAP_FIXED: .byte 1
 MAP_POSITION: .word 500, 0
 
 
@@ -51,7 +51,6 @@ GAME_LOOP:
 
 		la t1, IS_MAP_FIXED
 		lb s4, 0(t1)
-		#bnez s4, MAP_MOVIMENT
 
 		jal INPUT
 		#jal PHYSICS #only after input

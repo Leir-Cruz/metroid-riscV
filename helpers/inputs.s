@@ -44,22 +44,14 @@ INPUT.S: la t0, SAMUS_POSITION
 		
 		ret
 
-INPUT.A: la t0, SAMUS_POSITION
-		la t1, SAMUS_LAST_POSITION
-		lw t2, 0(t0)
-		sw t2, 0(t1)
-
+INPUT.A: la t0, MAP_POSITION
 		lw t1, 0(t0)
 		addi t1, t1, -20
 		sw t1, 0(t0)
 		
 		ret
 
-INPUT.D: la t0, SAMUS_POSITION
-		la t1, SAMUS_LAST_POSITION
-		lw t2, 0(t0)
-		sw t2, 0(t1)
-
+INPUT.D: la t0, MAP_POSITION
 		lw t1, 0(t0)
 		addi t1, t1, 20
 		sw t1, 0(t0)
