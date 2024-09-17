@@ -22,37 +22,47 @@ INPUT: 	li t1,0xFF200000
 		beq		t0, t1, INPUT.D
 
 
-INPUT.W:	la		t0, SAMUS_MOVE_Y
-		li		t1, -1
-		sb		t1, 0(t0)		# moveY = -1 (cima)
-		
-		la		t0, SAMUS_JUMP
-		li		t1, 1
-		sb		t1, 0(t0)		# input jump = 1
+INPUT.W: la t0, SAMUS_POSITION
+		la t1, SAMUS_LAST_POSITION
+		lw t2, 4(t0)
+		sw t2, 4(t1)
+
+		lw t1, 4(t0)
+		addi t1, t1, -32
+		sw t1, 4(t0)
 		
 		ret
 
-INPUT.A:	la		t0, SAMUS_MOVE_X
-		li		t1, -1
-		sb		t1, 0(t0)		# moveX = -1 (esquerda)
-		
-		#la		t0, CHAR_DIR
-		#li		t1, 1
-		#sb		t1, 0(t0)		# charDir = 1 (esquerda)
+INPUT.S: la t0, SAMUS_POSITION
+		la t1, SAMUS_LAST_POSITION
+		lw t2, 4(t0)
+		sw t2, 4(t1)
+
+		lw t1, 4(t0)
+		addi t1, t1, 16
+		sw t1, 4(t0)
 		
 		ret
 
-INPUT.S:	la		t0, SAMUS_MOVE_Y
-		li		t1, 1
-		sb		t1, 0(t0)		# moveY = 1 (baixo)
+INPUT.A: la t0, SAMUS_POSITION
+		la t1, SAMUS_LAST_POSITION
+		lw t2, 0(t0)
+		sw t2, 0(t1)
+
+		lw t1, 0(t0)
+		addi t1, t1, -20
+		sw t1, 0(t0)
+		
 		ret
 
-INPUT.D:	la		t0, SAMUS_MOVE_X
-		li		t1, 1
-		sb		t1, 0(t0)		# moveX = 1 (direita)
-		
-		#la		t0, CHAR_DIR
-		#sb		zero, 0(t0)		# charDir = 0 (direita)
+INPUT.D: la t0, SAMUS_POSITION
+		la t1, SAMUS_LAST_POSITION
+		lw t2, 0(t0)
+		sw t2, 0(t1)
+
+		lw t1, 0(t0)
+		addi t1, t1, 20
+		sw t1, 0(t0)
 		
 		ret
 
