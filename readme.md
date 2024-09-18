@@ -28,7 +28,8 @@ u: Volta modo normal caso em modo de rolamento
 - [] (1,0) Mínimo de 2 itens, com pelo menos 1 permitindo o acesso a lugares novos e pelo menos 1
 impactando o combate.
 - [] (0,5) Informações sobre a vida e equipamento da Samus.
-- [] (1,0) Pelo menos 3 salas distintas, isto é, três ambientes separados por uma porta.
+- [x] (1,0) Pelo menos 3 salas distintas, isto é, três ambientes separados por uma porta.
 - [] (2,0) Mínimo de 3 tipos de inimigos diferentes com IA (número de inimigos em aberto), sendo um
 deles um chefão.
-- [] (1,5) Background móvel que acompanhe o movimento da Samus (horizontal ou vertical).
+- [x] (1,5) Background móvel que acompanhe o movimento da Samus (horizontal ou vertical).
+- [] (2,0) Relatório

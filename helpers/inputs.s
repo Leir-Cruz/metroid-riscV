@@ -23,10 +23,6 @@ INPUT: 	li t1,0xFF200000
 
 
 INPUT.W: la t0, SAMUS_POSITION
-		la t1, SAMUS_LAST_POSITION
-		lw t2, 4(t0)
-		sw t2, 4(t1)
-
 		lw t1, 4(t0)
 		addi t1, t1, -32
 		sw t1, 4(t0)
@@ -34,10 +30,6 @@ INPUT.W: la t0, SAMUS_POSITION
 		ret
 
 INPUT.S: la t0, SAMUS_POSITION
-		la t1, SAMUS_LAST_POSITION
-		lw t2, 4(t0)
-		sw t2, 4(t1)
-
 		lw t1, 4(t0)
 		addi t1, t1, 16
 		sw t1, 4(t0)
@@ -59,7 +51,7 @@ INPUT.D: la t0, MAP_POSITION
 		ret
 
 
-END_INPUT:	la t0, SAMUS_MOVE_X
+END_INPUT:	la t0, SAMUS_JUMP
 		sw zero, 0(t0)		# zera moveX, moveY, jump e roll (cada um eh um byte, usamos word para zerar os 4 ja que est�o um em seguida do outro na memoria)
 		ret			# 
 				
