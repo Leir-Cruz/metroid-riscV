@@ -63,10 +63,10 @@ GAME_LOOP:
 		la t1, IS_MAP_FIXED
 		lb s4, 0(t1)
 
+		jal PHYSICS
 		jal INPUT
-		#jal PHYSICS #only after input
 
-		bnez s4, RENDER_MAP
+START_RENDERING: bnez s4, RENDER_MAP
 
 RENDER_DINAMIC_MAP:
 		# calcular a posição do mapa com base na posição da samus
@@ -193,6 +193,7 @@ EXIT:	li a0,100000
 .include "helpers/inputs.s"
 .include "helpers/print.s"
 .include "helpers/utils.s"
+.include "helpers/physics.s"
 .include "constants.s"
 	
 	

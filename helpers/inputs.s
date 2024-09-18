@@ -22,13 +22,20 @@ INPUT: 	li t1,0xFF200000
 		beq		t0, t1, INPUT.D
 
 
-INPUT.W: la t0, SAMUS_POSITION
+INPUT.W: la t3, SAMUS_JUMP
+		lb t4, 0(t3)
+		bnez t4, INPUT_RET
+
+		la t0, SAMUS_POSITION
 		lw t1, 4(t0)
 		li t2, 40
 		ble t1, t2, INPUT_RET
 		addi t1, t1, -32
 		sw t1, 4(t0)
-		
+
+		li t4, 1
+		sb t4, 0(t3)
+
 		j INPUT_RET
 
 INPUT.S: la t0, SAMUS_POSITION
