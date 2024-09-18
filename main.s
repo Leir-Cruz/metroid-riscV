@@ -2,6 +2,7 @@
 .include "sprites/mapametroidteste1.data"
 .include "sprites/samusStandBy.data"
 .include "sprites/samusWalkRight1.data"
+.include "sprites/ripper.data"
 
 SAMUS_POSITION: .word 140, 160
 SAMUS_LAST_POSITION: .word 140, 160
@@ -11,8 +12,13 @@ SAMUS_MOVE_Y:		.byte 0		# up: -1, down: 1
 SAMUS_JUMP:		.byte 0		# jump: 1, nothing: 0
 SAMUS_ROLLING:		.byte 0		# roll: 1, nothing: 0
 
+RIPPER_DIRECTION: .byte 1
+
 IS_MAP_FIXED: .byte 1
 MAP_POSITION: .word 500, 0
+
+RIPPER_POSITION: .word 200,180
+RIPPER_LAST_POSITION: .word 200,180
 
 
 ###################### REGISTRADORES GLOBAIS ######################
@@ -91,7 +97,16 @@ RENDER_SAMUS:
 		mv a3, s3
 		mv a4, zero
 		mv a5, zero
-		jal PRINT	
+		jal PRINT
+
+RENDER_RIPPER:
+		la t1, RIPPER_POSITION
+		la a0, ripper
+		lw a1, 0(t1)
+		lw a2, 4(t1)
+		mv a3, s3
+		jal MOVE_RIPPER
+		jal PRINT
 		
 #### indica quando frame termina rendereizacao e troca de frame para poder renderizar #######
 		csrr s11, 3073
@@ -100,6 +115,7 @@ RENDER_SAMUS:
 		xori s3, s3, 1
 
 		j GAME_LOOP
+		
 
 
 EXIT:		li a0,100000
@@ -113,5 +129,6 @@ EXIT:		li a0,100000
 .include "helpers/inputs.s"
 .include "helpers/print.s"
 .include "constants.s"
+.include "helpers/enemies.s"
 	
 	
