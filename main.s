@@ -52,7 +52,8 @@ LOOP_SETUP:
 		li t0, 0xFF200604
 		lw s3, 0(t0)
 
-		jal MUSIC_SETUP    
+		jal MUSIC_SETUP
+		jal MUSIC_PLAY_NOTES
 
 GAME_LOOP: 
 		csrr t0, 3073		# t0 = current time

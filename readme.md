@@ -32,4 +32,4 @@ impactando o combate.
 - [] (2,0) Mínimo de 3 tipos de inimigos diferentes com IA (número de inimigos em aberto), sendo um
 deles um chefão.
 - [x] (1,5) Background móvel que acompanhe o movimento da Samus (horizontal ou vertical).
-- [] (2,0) Relatório
+- [x] (2,0) Relatório
