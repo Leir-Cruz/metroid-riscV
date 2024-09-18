@@ -3,14 +3,18 @@
 .include "sprites/samusStandBy.data"
 .include "sprites/samusWalkRight1.data"
 .include "sprites/ripper.data"
+.include "sprites/samusWalkLeft1.data"
+.include "sprites/item1Teleport.data"
+.include "sprites/item2SuperGun.data"
 
 SAMUS_POSITION: .word 140, 160
-SAMUS_LAST_POSITION: .word 140, 160
+ITEM1_TELEPORT_POSITION: .word 1100, 190
 
-SAMUS_MOVE_X:		.byte 0		# left: -1, right: 1
-SAMUS_MOVE_Y:		.byte 0		# up: -1, down: 1
+
 SAMUS_JUMP:		.byte 0		# jump: 1, nothing: 0
 SAMUS_ROLLING:		.byte 0		# roll: 1, nothing: 0
+SAMUS_LIFE:	.byte 3
+SAMUS_DIRECTION: .byte 0 #left: -1, stand: 0, right: 1
 
 RIPPER_DIRECTION: .byte 1
 
@@ -38,17 +42,18 @@ GAME_START:	la a0, title2   #MENU INICIAL DO JOGO
 		li a3, 0
 		li a4, 0
 		li a5, 0
-            	jal PRINT
-            	li a0 , 1000
-				#call SLEEP
-				li a7 , 32
-				ecall
+		jal PRINT
+		li a0 , 1000
+		#call SLEEP
+		li a7 , 32
+		ecall
+		 
 LOOP_SETUP: 
 		li t0, 0xFF200604
 		lw s3, 0(t0)
 
-		jal MUSIC_SETUP     	
-            	
+		jal MUSIC_SETUP    
+
 GAME_LOOP: 
 		csrr t0, 3073		# t0 = current time
 		sub t0, t0, s11		# t0 = current time - last frame time
@@ -105,10 +110,36 @@ RENDER_RIPPER:
 		lw a1, 0(t1)
 		lw a2, 4(t1)
 		mv a3, s3
-		jal MOVE_RIPPER
+		jal PRINT
+
+
+RENDER_ITEM1_TELEPORT:
+		###### para renderizar o mapa, precisamos saber se a região 1100 em x está aparecendo na tela
+ 		la t0, ITEM1_TELEPORT_POSITION
+		lw t1, 0(t0)         # x do item (1100) em t1
+
+		# pega a posicao do mapa atual
+		la t2, MAP_POSITION
+		lw t3, 0(t2)         # x do mapa
+
+		# Ajustar a posição do item para a tela (calculo para ver se imprime o item)
+		sub t1, t1, t3     # t1 agora é a posição x do item na tela (1100 - posição do mapa)
+
+		# Verificar se o item está dentro da tela
+		li t4, 320           # largura da tela em t4
+		blt t1, zero, FINISH_PRINTING # se x < 0, sair (não desenhar)
+		bge t1, t4, FINISH_PRINTING # se x >= 320, sair (não desenhar)
+
+		# Renderizar item
+		la a0, item1Teleport
+		mv a1, t1            # nova posição x ajustada
+		lw a2, 4(t0)            # y do item (fixo)
+		mv a3, s3
+		mv a4, zero       
+		mv a5, zero        
 		jal PRINT
 		
-#### indica quando frame termina rendereizacao e troca de frame para poder renderizar #######
+FINISH_PRINTING:
 		csrr s11, 3073
 		li	t0, 0xFF200604
 		sw	s3, 0(t0)
@@ -118,8 +149,8 @@ RENDER_RIPPER:
 		
 
 
-EXIT:		li a0,100000
-		li		a7, 10
+EXIT:	li a0,100000
+		li a7, 10
 		ecall
 		
 
