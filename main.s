@@ -15,7 +15,7 @@ SAMUS_POSITION: .word 140, 160
 SAMUS_LIFE_POSITION: .word 20, 20
 ITEM1_TELEPORT_POSITION: .word 1100, 190
 ITEM2_SUPERGUN_POSITION: .word 1470, 115
-
+RIPPER_POSITION: .word 1300,180
 
 SAMUS_JUMP:		.byte 0		# jump: 1, nothing: 0
 SAMUS_ROLLING:		.byte 0		# roll: 1, nothing: 0
@@ -27,8 +27,6 @@ RIPPER_DIRECTION: .byte 1
 IS_MAP_FIXED: .byte 1
 SAMUS_LIFE:	.word 3
 MAP_POSITION: .word 500, 0
-
-RIPPER_POSITION: .word 1300,180
 
 
 ###################### REGISTRADORES GLOBAIS ######################
@@ -127,26 +125,31 @@ RENDER_SAMUS:
 		jal PRINT
 
 RENDER_RIPPER:
-		la t1, RIPPER_POSITION
-		lw a1, 0(t1)
-		
+		###### para renderizar o mapa, precisamos saber se a região 1100 em x está aparecendo na tela
+ 		la t0, RIPPER_POSITION
+		lw t1, 0(t0)         # x do item (1100) em t1
+
+		# pega a posicao do mapa atual
 		la t2, MAP_POSITION
 		lw t3, 0(t2)         # x do mapa
 
 		# Ajustar a posição do item para a tela (calculo para ver se imprime o item)
-		sub a1, a1, t3     # t1 agora é a posição x do item na tela (1100 - posição do mapa)
+		sub t1, t1, t3     # t1 agora é a posição x do item na tela (1100 - posição do mapa)
 
 		# Verificar se o item está dentro da tela
 		li t4, 320           # largura da tela em t4
-		blt a1, zero, RENDER_ITEM1_TELEPORT # se x < 0, sair (não desenhar)
-		bge a1, t4, RENDER_ITEM1_TELEPORT # se x >= 320, sair (não desenhar)
+		blt t1, zero, RENDER_ITEM1_TELEPORT # se x < 0, sair (não desenhar)
+		bge t1, t4, RENDER_ITEM1_TELEPORT # se x >= 320, sair (não desenhar)
 
+		# Renderizar item
 		la a0, ripper
-		lw a2, 4(t1)
+		mv a1, t1            # nova posição x ajustada
+		lw a2, 4(t0)            # y do item (fixo)
 		mv a3, s3
 		mv a4, zero       
-		mv a5, zero 
+		mv a5, zero        
 		jal PRINT
+
 
 
 RENDER_ITEM1_TELEPORT:
