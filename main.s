@@ -5,17 +5,23 @@
 .include "sprites/samusWalkLeft1.data"
 .include "sprites/item1Teleport.data"
 .include "sprites/item2SuperGun.data"
+.include "sprites/samusLife3.data"
+.include "sprites/samusLife2.data"
+.include "sprites/samusLife1.data"
+.include "sprites/samusLife0.data"
 
 SAMUS_POSITION: .word 140, 160
+SAMUS_LIFE_POSITION: .word 20, 20
 ITEM1_TELEPORT_POSITION: .word 1100, 190
+ITEM2_SUPERGUN_POSITION: .word 1470, 115
 
 
 SAMUS_JUMP:		.byte 0		# jump: 1, nothing: 0
 SAMUS_ROLLING:		.byte 0		# roll: 1, nothing: 0
-SAMUS_LIFE:	.byte 3
+IS_MAP_FIXED: .byte 1
 SAMUS_DIRECTION: .byte 0 #left: -1, stand: 0, right: 1
 
-IS_MAP_FIXED: .byte 1
+SAMUS_LIFE:	.word 3
 MAP_POSITION: .word 500, 0
 
 
@@ -88,6 +94,22 @@ RENDER_MAP:
 		lw a5, 4(t1)
 		jal PRINT
 
+
+RENDER_SAMUS_LIFE:
+		la t1, SAMUS_LIFE
+		lw t1, 0(t1)
+		li t2, 1 #comparador
+
+		beqz t1, RENDER_SAMUS_LIFE0
+
+		beq t1, t2, RENDER_SAMUS_LIFE1
+
+		addi t2, t2, 1
+		beq t1, t2, RENDER_SAMUS_LIFE2
+
+		addi t2, t2, 1
+		beq t1, t2, RENDER_SAMUS_LIFE3
+
 RENDER_SAMUS:
 		la t1, SAMUS_POSITION
 		la a0, samusStandBy
@@ -112,11 +134,38 @@ RENDER_ITEM1_TELEPORT:
 
 		# Verificar se o item está dentro da tela
 		li t4, 320           # largura da tela em t4
+		blt t1, zero, RENDER_ITEM2_SUPERGUN # se x < 0, sair (não desenhar)
+		bge t1, t4, RENDER_ITEM2_SUPERGUN # se x >= 320, sair (não desenhar)
+
+		# Renderizar item
+		la a0, item1Teleport
+		mv a1, t1            # nova posição x ajustada
+		lw a2, 4(t0)            # y do item (fixo)
+		mv a3, s3
+		mv a4, zero       
+		mv a5, zero        
+		jal PRINT
+
+
+RENDER_ITEM2_SUPERGUN:
+		###### para renderizar o mapa, precisamos saber se a região 1100 em x está aparecendo na tela
+ 		la t0, ITEM2_SUPERGUN_POSITION
+		lw t1, 0(t0)         # x do item (1100) em t1
+
+		# pega a posicao do mapa atual
+		la t2, MAP_POSITION
+		lw t3, 0(t2)         # x do mapa
+
+		# Ajustar a posição do item para a tela (calculo para ver se imprime o item)
+		sub t1, t1, t3     # t1 agora é a posição x do item na tela (1100 - posição do mapa)
+
+		# Verificar se o item está dentro da tela
+		li t4, 320           # largura da tela em t4
 		blt t1, zero, FINISH_PRINTING # se x < 0, sair (não desenhar)
 		bge t1, t4, FINISH_PRINTING # se x >= 320, sair (não desenhar)
 
 		# Renderizar item
-		la a0, item1Teleport
+		la a0, item2SuperGun
 		mv a1, t1            # nova posição x ajustada
 		lw a2, 4(t0)            # y do item (fixo)
 		mv a3, s3
@@ -143,6 +192,7 @@ EXIT:	li a0,100000
 .include "helpers/menu.s"
 .include "helpers/inputs.s"
 .include "helpers/print.s"
+.include "helpers/utils.s"
 .include "constants.s"
 	
 	
